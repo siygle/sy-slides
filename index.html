@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sy Slides</title>
+  <meta name="description" content="簡報與作品展示。" />
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --ink: #1c1b19;
+      --muted: #6f6a62;
+      --line: #e4dfd6;
+      --card: #fffcf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+    }
+    main { max-width: 42rem; margin: 0 auto; padding: 5.5rem 1.5rem 4rem; }
+    p.kicker {
+      margin: 0 0 0.8rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 { margin: 0; font-size: clamp(2.4rem, 6vw, 3.4rem); font-weight: 500; letter-spacing: -0.03em; }
+    .lead { margin: 1rem 0 3rem; max-width: 28rem; color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
+    a.card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.4rem 1.4rem 1.25rem;
+      transition: transform 160ms ease, border-color 160ms ease;
+    }
+    a.card:hover { transform: translateY(-2px); border-color: #cfc8bb; }
+    .meta { display: flex; justify-content: space-between; gap: 1rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    h2 { margin: 0.9rem 0 0.4rem; font-size: 1.7rem; font-weight: 500; }
+    .card p { margin: 0; color: #4d4943; line-height: 1.55; }
+    footer { margin-top: 3rem; color: var(--muted); font-size: 0.9rem; }
+    footer a { color: inherit; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">Slides</p>
+    <h1>簡報</h1>
+    <p class="lead">放在這裡的簡報都是獨立 HTML，可以直接開啟播放。</p>
+    <a class="card" href="./omarchy/">
+      <div class="meta"><span>01</span><span>HTML</span></div>
+      <h2>簡介 Omarchy</h2>
+      <p>為 Agent 時代打造的 Linux。</p>
+    </a>
+    <footer><a href="https://sylee.dev">sylee.dev</a></footer>
+  </main>
+</body>
+</html>
