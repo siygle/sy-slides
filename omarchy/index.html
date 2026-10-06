@@ -11,7 +11,7 @@
   <title>Omarchy：為 Agent 時代打造的 Linux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       /* Tokyo Night，omarchy.org 預設主題 */
@@ -44,7 +44,7 @@
 
       --font-display: 'JetBrains Mono', 'PingFang TC', 'Noto Sans TC', ui-monospace, monospace;
       --font-body:    'Geist', 'PingFang TC', 'Noto Sans TC', -apple-system, system-ui, sans-serif;
-      --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+      --font-mono:    'JetBrains Mono', 'PingFang TC', 'Noto Sans TC', ui-monospace, monospace;
 
       --ease: cubic-bezier(.2, 0, 0, 1);
     }
@@ -296,22 +296,29 @@
     .tokens span.def { border-color: var(--muted); background: var(--surface-2); }
     .side > div + div { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border); }
 
-    /* ─── 13 生態系 ─────────────────────────────────────────────────── */
-    .eco-infra { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 4vw, 64px); margin-top: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
-    .eco-infra h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: 0 0 8px; }
-    .eco-infra h3 .code { font-size: 15px; font-weight: 400; margin-left: 10px; }
-    .eco-infra p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0; max-width: 40ch; }
-    .chan { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+    /* ─── 13 生態系 ────────────────────────────────────────────────── */
+    .eco-infra { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); margin-top: 8px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .eco-infra h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: 0 0 6px; }
+    .eco-infra h3 .code { font-size: 14px; font-weight: 400; margin-left: 10px; }
+    .eco-infra p { color: var(--muted); font-size: 15px; line-height: 1.55; margin: 0; max-width: 42ch; }
+    .chan { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
     .chan span { padding: 4px 10px; border: 1px solid var(--border); }
     .chan span.on { color: var(--fg); border-color: var(--muted); }
     .chan em { font-style: normal; color: var(--dim); }
-    .eco-h { font-family: var(--font-mono); font-size: 13px; color: var(--dim); margin: 28px 0 6px; }
-    .ports { display: grid; grid-template-columns: 11em minmax(0, 1fr) 12em; column-gap: 32px; font-size: 16px; }
-    .ports > * { padding: 11px 0; border-bottom: 1px solid var(--hairline); }
-    .ports b { font-family: var(--font-mono); font-weight: 500; color: var(--cyan); font-size: 15px; }
-    .ports .what { color: var(--fg); }
-    .ports .st { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
-    .ports .st.off { color: var(--accent); }
+    .eco-h { font-family: var(--font-mono); font-size: 13px; color: var(--dim); margin: 16px 0 2px; }
+    .ports { display: flex; flex-direction: column; font-size: 16px; }
+    .port {
+      display: grid;
+      grid-template-columns: 13.5em minmax(0, 1fr) max-content;
+      column-gap: 28px;
+      align-items: baseline;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .port b { font-family: var(--font-mono); font-weight: 500; color: var(--cyan); font-size: 15px; }
+    .port .what { color: var(--fg); min-width: 0; }
+    .port .st { font-family: var(--font-mono); font-size: 13px; color: var(--muted); white-space: nowrap; }
+    .port .st.off { color: var(--accent); }
 
     /* ─── 14 收尾 ───────────────────────────────────────────────────── */
     .flow { display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; margin: 8px 0 44px; font-size: 18px; color: var(--fg); }
@@ -366,9 +373,18 @@
     @media (max-width: 900px) {
       .hypr-wrap, .ag-wrap, .ba-grid, .split, .dev, .diff .pair, .diff-head { grid-template-columns: 1fr; }
       .eco-infra { grid-template-columns: 1fr; }
-      .ports { grid-template-columns: 1fr 1fr; } .ports .st { display: none; }
+      .port { grid-template-columns: 1fr; row-gap: 2px; }
+      .port .st { white-space: normal; }
       .hk-cols, .timeline { grid-template-columns: 1fr 1fr; }
       .sw-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    /* 瀏覽器視窗比全螢幕矮，避免底列被 overflow:hidden 裁掉 */
+    @media (max-height: 820px) {
+      .slide { padding-block: 56px; }
+      .slide.hero { padding-block: 48px; }
+      .hk-cols { margin-top: 24px; }
+      .hk-row { margin-bottom: 14px; }
+      .facts { gap: 40px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .cursor { animation: none; }
@@ -643,12 +659,12 @@
     </div>
     <p class="eco-h">移植與延伸專案</p>
     <div class="ports">
-      <b>omarchy-mac</b><span class="what">Apple Silicon M1/M2，透過 Asahi Alarm 和 macOS 並存，一行指令安裝</span><span class="st off">omacom 組織維護</span>
-      <b>Dragon 團隊</b><span class="what">Snapdragon 筆電</span><span class="st">官方團隊開發中</span>
-      <b>omarchy-pi</b><span class="what">Raspberry Pi 5，目標是可直接燒錄的 SD 卡映像檔；Pi 4 另有 omarchy-4-pi</span><span class="st">alpha，尚未在實機驗證</span>
-      <b>omarchy-arm</b><span class="what">裝在現有 Arch Linux ARM 上：Apple Silicon、Pi 5、aarch64 VM</span><span class="st">非官方移植</span>
-      <b>Pimarchy</b><span class="what">把 Raspberry Pi OS Lite 改成 Omarchy 風格的 Wayland 桌面</span><span class="st">受 Omarchy 啟發</span>
-      <b>omarchy-hardware</b><span class="what">Arduino、ESP32、Pico、GPIO 的頂部列 widget，加一個讓 Claude 操作硬體的 MCP server</span><span class="st">社群專案</span>
+      <div class="port"><b>omarchy-mac</b><span class="what">Apple Silicon M1/M2，透過 Asahi Alarm 與 macOS 並存</span><span class="st off">omacom 維護</span></div>
+      <div class="port"><b>Dragon 團隊</b><span class="what">Snapdragon 筆電</span><span class="st">官方開發中</span></div>
+      <div class="port"><b>omarchy-pi</b><span class="what">Raspberry Pi 5 的 SD 卡映像；Pi 4 另有 omarchy-4-pi</span><span class="st">alpha，尚未實機驗證</span></div>
+      <div class="port"><b>omarchy-arm</b><span class="what">裝在現有 Arch Linux ARM：Apple Silicon、Pi 5、VM</span><span class="st">非官方移植</span></div>
+      <div class="port"><b>Pimarchy</b><span class="what">把 Raspberry Pi OS Lite 改成 Omarchy 風格的 Wayland 桌面</span><span class="st">受 Omarchy 啟發</span></div>
+      <div class="port"><b>omarchy-hardware</b><span class="what">Arduino、ESP32、GPIO widget，以及讓 Claude 操作硬體的 MCP server</span><span class="st">社群專案</span></div>
     </div>
     <aside class="notes">最後補充 Omarchy 的生態系。官方有兩個基礎建設：pkgs.omarchy.org 是自家的 Arch 套件庫，分 edge、rc、stable 三個頻道，而且同時建置 x86_64 和 ARM 版本；plugins.omarchy.org 是社群 plugin 的註冊中心，已經有數千個。在這之上，社群把 Omarchy 帶到更多硬體：omarchy-mac 讓 Apple Silicon 的 M1、M2 跟 macOS 並存，官方團隊頁有專門的 Mac 小組；Dragon 小組在做 Snapdragon 筆電；omarchy-pi 把它移植到 Raspberry Pi 5，目前是 alpha，還沒在實機上驗證；omarchy-arm 是非官方的 ARM 移植。還有受啟發的專案，例如 Pimarchy，以及讓 Claude 透過 MCP 控制 Arduino 和 ESP32 的 omarchy-hardware，剛好呼應 agent first 的主軸。這些專案狀態變化很快，以各自 GitHub 的說明為準。</aside>
   </section>
