@@ -1,20 +1,20 @@
 <!doctype html>
 <!--
-  Omarchy 簡介簡報 · 基於 OD simple-deck seed。
+  Omarchy 簡介簡報 v2（反 AI 味修訂）。基於 OD simple-deck seed。
   色彩 / 字型取自 omarchy.org 的 Tokyo Night 預設主題（見 brand-spec.md）。
-  導覽腳本為 seed 原版，未改動；講者備註以獨立腳本掛上（按 N 切換）。
+  導覽腳本為 seed 原版，未改動；講者備註按 N 切換。
 -->
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Omarchy · 為 Agent 時代打造的 Linux</title>
+  <title>Omarchy：為 Agent 時代打造的 Linux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      /* Tokyo Night — omarchy.org 預設主題 */
+      /* Tokyo Night，omarchy.org 預設主題 */
       --bg:      #1a1b26;
       --surface: #1f2230;
       --fg:      #c0caf5;
@@ -22,14 +22,13 @@
       --border:  #414868;
       --accent:  #9ece6a;
 
-      --bg-deep:    #0e0e14;
+      --bg-deep:    #13141c;
       --surface-2:  #24283b;
       --hairline:   #24283b;
-      --accent-ink: #0c0e10;
       --cyan:       oklch(82% .105 235.7);
       --dim:        #565f89;
 
-      /* 主題樣本（取自 omarchy.org 各主題的 --t-bg / --t-brand / --t-text） */
+      /* 主題樣本：取自 omarchy.org 各主題的 --t-bg / --t-brand */
       --sw-tokyo-bg: #1a1b26;  --sw-tokyo-fg: #9ece6a;
       --sw-catp-bg:  #1e1e2e;  --sw-catp-fg:  #89b4fa;
       --sw-gruv-bg:  #282828;  --sw-gruv-fg:  #7daea3;
@@ -43,11 +42,11 @@
       --sw-rose-bg:  #faf4ed;  --sw-rose-fg:  #56949f;
       --sw-latte-bg: #eff1f5;  --sw-latte-fg: #1e66f5;
 
-      --accent-soft: color-mix(in oklch, var(--accent) 14%, transparent);
-
       --font-display: 'JetBrains Mono', 'PingFang TC', 'Noto Sans TC', ui-monospace, monospace;
       --font-body:    'Geist', 'PingFang TC', 'Noto Sans TC', -apple-system, system-ui, sans-serif;
       --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+      --ease: cubic-bezier(.2, 0, 0, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -83,84 +82,100 @@
       position: relative;
       overflow: hidden;
     }
-    /* 全深色簡報：light = Tokyo Night 底；dark = 更深的 field 底 + 終端格線 */
+    /* 整份同一個深色主題；light / dark 只是同色系的兩階明度 */
     .slide.light { background: var(--bg); color: var(--fg); }
-    .slide.dark  {
-      background:
-        linear-gradient(var(--hairline) 1px, transparent 1px) 0 0 / 48px 48px,
-        linear-gradient(90deg, var(--hairline) 1px, transparent 1px) 0 0 / 48px 48px,
-        var(--bg-deep);
-      background-blend-mode: normal;
-      color: var(--fg);
-    }
-    .slide.dark::before {
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse at center, transparent 30%, var(--bg-deep) 85%);
-    }
-    .slide > * { position: relative; }
+    .slide.dark  { background: var(--bg-deep); color: var(--fg); }
     .slide.hero { padding-block: clamp(64px, 9vw, 128px); }
-
     .slide.center { align-items: center; text-align: center; justify-content: center; }
-    .slide.center .body, .slide.center .lead { margin-inline: auto; }
+    .slide.center .lead { margin-inline: auto; }
 
-    /* ─── eyebrow / kicker（終端提示字元） ───────────────────────────── */
+    /* ─── eyebrow：終端提示字元，全份只用在 4 頁 ───────────────────── */
     .eyebrow {
       font-family: var(--font-mono);
-      font-size: 13px;
-      letter-spacing: 0.06em;
+      font-size: 14px;
       color: var(--accent);
       margin: 0 0 28px;
     }
-    .eyebrow::before { content: "$ "; color: var(--muted); }
+    .eyebrow::before { content: "$ "; color: var(--dim); }
 
     /* ─── type ──────────────────────────────────────────────────────── */
     .h-hero {
       font-family: var(--font-display);
       font-weight: 700;
       font-size: clamp(56px, 8vw, 112px);
-      line-height: 1.02;
-      letter-spacing: -0.04em;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
       margin: 0 0 24px;
       max-width: 16ch;
     }
     .h-xl {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: clamp(36px, 4.4vw, 60px);
-      line-height: 1.15;
-      letter-spacing: -0.03em;
+      font-size: clamp(36px, 4.2vw, 56px);
+      line-height: 1.18;
+      letter-spacing: -0.02em;
       margin: 0 0 20px;
-      max-width: 20ch;
+      max-width: 18ch;
     }
     .h-md {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: clamp(28px, 3vw, 40px);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
+      font-size: clamp(28px, 2.8vw, 38px);
+      line-height: 1.25;
+      letter-spacing: -0.015em;
       margin: 0 0 16px;
-      max-width: 26ch;
+      max-width: 24ch;
     }
     .lead {
-      font-size: clamp(20px, 1.6vw, 24px);
-      line-height: 1.6;
+      font-size: clamp(19px, 1.5vw, 22px);
+      line-height: 1.65;
       color: var(--muted);
-      max-width: 56ch;
+      max-width: 44ch;
       margin: 0;
     }
-    .meta { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
-    .hl { color: var(--fg); font-weight: 600; }
-    code, .code { font-family: var(--font-mono); font-size: 0.9em; color: var(--cyan); }
+    .meta { font-family: var(--font-mono); font-size: 13px; color: var(--muted); letter-spacing: 0.01em; }
+    .code { font-family: var(--font-mono); font-size: 14px; color: var(--cyan); }
 
-    /* ─── cover cursor ──────────────────────────────────────────────── */
     .cursor {
-      display: inline-block; width: 0.55em; height: 0.9em;
-      background: var(--accent); vertical-align: -0.06em; margin-left: 0.08em;
-      animation: blink 1.1s steps(1) infinite;
+      display: inline-block; width: 0.55em; height: 0.86em;
+      background: var(--accent); vertical-align: -0.04em; margin-left: 0.08em;
+      animation: blink 1.1s steps(1) 4;
     }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* ─── big-stat layout ───────────────────────────────────────────── */
+    /* ─── keycaps ───────────────────────────────────────────────────── */
+    .kbd {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 2.1em; height: 1.85em; padding: 0 0.5em;
+      font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+      color: var(--fg); background: var(--surface-2);
+      border: 1px solid var(--border); border-bottom-width: 3px;
+      white-space: nowrap;
+    }
+    .plus { font-family: var(--font-mono); color: var(--dim); margin: 0 4px; font-size: 13px; }
+
+    /* ─── 02 diff ───────────────────────────────────────────────────── */
+    .diff { margin-top: 40px; font-family: var(--font-mono); font-size: clamp(17px, 1.45vw, 21px); line-height: 1.5; max-width: 980px; }
+    .diff .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 18px 0; border-top: 1px solid var(--hairline); }
+    .diff .pair:last-child { border-bottom: 1px solid var(--hairline); }
+    .diff .del { color: var(--dim); text-decoration: line-through; text-decoration-color: var(--border); }
+    .diff .add { color: var(--fg); }
+    .diff .del::before { content: "- "; text-decoration: none; display: inline-block; }
+    .diff .add::before { content: "+ "; color: var(--accent); }
+    .diff-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 980px; margin-top: 36px; }
+
+    /* ─── 03 stack diagram ──────────────────────────────────────────── */
+    .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
+    .stack { display: flex; flex-direction: column; gap: 6px; }
+    .layer { display: grid; grid-template-columns: 9.5em 1fr; align-items: baseline; gap: 20px; padding: 22px 24px; border: 1px solid var(--border); }
+    .layer b { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--fg); }
+    .layer span { color: var(--muted); font-size: 16px; line-height: 1.55; }
+    .layer.l1 { margin-right: 0; background: var(--surface); }
+    .layer.l2 { margin-right: 8%; background: var(--bg); }
+    .layer.l3 { margin-right: 16%; background: var(--bg-deep); }
+    .layer small { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 12px; color: var(--dim); }
+
+    /* ─── 04 big stat ───────────────────────────────────────────────── */
     .stat-num {
       font-family: var(--font-mono);
       font-size: clamp(140px, 22vw, 280px);
@@ -168,188 +183,169 @@
       letter-spacing: -0.06em;
       color: var(--accent);
       font-weight: 700;
-      margin: 0 0 24px;
-    }
-    .stat-num .unit { font-family: var(--font-body); font-size: 0.32em; letter-spacing: 0; opacity: 0.85; margin-left: 12px; }
-    .stat-caption {
-      font-size: clamp(20px, 1.7vw, 26px);
-      color: var(--muted);
-      max-width: 30ch;
-      margin: 0;
-    }
-
-    /* ─── big-quote layout ──────────────────────────────────────────── */
-    .quote-mark {
-      font-family: var(--font-display);
-      font-size: clamp(140px, 16vw, 200px);
-      line-height: 0.6;
-      color: var(--accent);
-      opacity: 0.25;
-      margin: 0 0 -24px;
-    }
-    .quote-text {
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: clamp(28px, 3vw, 44px);
-      line-height: 1.45;
-      letter-spacing: -0.01em;
-      max-width: 24ch;
       margin: 0 0 28px;
     }
-    .quote-author { font-family: var(--font-mono); font-size: 14px; color: var(--muted); }
+    .stat-num .unit { font-family: var(--font-body); font-size: 0.3em; letter-spacing: 0; margin-left: 14px; color: var(--fg); }
+    .stat-caption { font-size: clamp(20px, 1.7vw, 25px); line-height: 1.6; color: var(--muted); max-width: 30ch; margin: 0; }
 
-    /* ─── 3-column point layout ─────────────────────────────────────── */
-    .pt-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-top: 40px;
-    }
-    .pt { border-top: 1px solid var(--border); padding-top: 18px; }
-    .pt .nb { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
-    .pt h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin: 6px 0 10px; letter-spacing: -0.01em; }
-    .pt p  { color: var(--muted); margin: 0; font-size: 16px; line-height: 1.6; }
-
-    /* ─── pipeline (numbered steps) ─────────────────────────────────── */
-    .pipeline {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      margin-top: 40px;
-      border: 1px solid var(--border);
-      background: var(--bg-deep);
-    }
-    .step { padding: 24px 22px 26px; border-left: 1px solid var(--border); }
-    .step:first-child { border-left: 0; }
-    .step .nb { font-family: var(--font-mono); font-size: 13px; color: var(--muted); letter-spacing: 0.06em; }
-    .step h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin: 8px 0 10px; line-height: 1.25; }
-    .step p  { color: var(--muted); margin: 0 0 14px; font-size: 15px; line-height: 1.6; }
-
-    /* ─── before/after ──────────────────────────────────────────────── */
-    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 36px; }
-    .ba-col { border-top: 1px solid var(--border); padding-top: 20px; }
-    .ba-col .ba-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
-    .ba-col h3 { font-family: var(--font-display); font-size: 28px; font-weight: 700; line-height: 1.3; margin: 0 0 14px; max-width: 18ch; }
-    .ba-col p  { color: var(--muted); font-size: 17px; line-height: 1.6; margin: 0; }
-
-    /* ─── keycaps ───────────────────────────────────────────────────── */
-    .kbd {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-width: 2.2em; height: 1.9em; padding: 0 0.55em;
-      font-family: var(--font-mono); font-size: 13px; font-weight: 500;
-      color: var(--fg); background: var(--surface-2);
-      border: 1px solid var(--border); border-bottom-width: 3px;
-    }
-    .plus { font-family: var(--font-mono); color: var(--dim); margin: 0 4px; font-size: 13px; }
-
-    /* ─── Hyprland 動態示範 ─────────────────────────────────────────── */
-    .hypr-wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 4vw, 64px); align-items: center; }
+    /* ─── 05 Hyprland 示意 ──────────────────────────────────────────── */
+    .hypr-wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 4vw, 64px); align-items: center; }
     .hypr { border: 1px solid var(--border); background: var(--bg-deep); aspect-ratio: 16 / 10; display: flex; flex-direction: column; }
     .hypr-bar {
       display: flex; justify-content: space-between; align-items: center;
-      height: 26px; padding: 0 10px; font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+      height: 28px; padding: 0 12px; font-family: var(--font-mono); font-size: 11px; color: var(--dim);
       border-bottom: 1px solid var(--hairline);
     }
-    .hypr-bar .ws span { display: inline-block; width: 16px; text-align: center; color: var(--dim); }
+    .hypr-bar .ws span { display: inline-block; width: 16px; text-align: center; }
     .hypr-bar .ws span.on { color: var(--fg); }
     .hypr-desk { position: relative; flex: 1; margin: 6px; overflow: hidden; }
-    .hypr-idle {
-      position: absolute; inset: 0; display: grid; place-items: center;
-      font-family: var(--font-mono); font-size: 12px; color: var(--dim); letter-spacing: 0.1em;
-    }
+    .hypr-idle { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-size: 13px; color: var(--dim); transition: opacity .2s ease; }
     .win {
       position: absolute; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;
       background: var(--bg); border: 2px solid var(--border);
-      opacity: 0; transform: scale(0.94);
-      transition: left .5s cubic-bezier(.2,.8,.2,1), top .5s cubic-bezier(.2,.8,.2,1),
-                  width .5s cubic-bezier(.2,.8,.2,1), height .5s cubic-bezier(.2,.8,.2,1),
-                  opacity .3s ease, transform .4s cubic-bezier(.2,.8,.2,1), border-color .2s ease;
-      font-family: var(--font-mono); font-size: 10.5px; line-height: 1.6; color: var(--muted);
-      padding: 8px 10px;
+      opacity: 0; transform: scale(0.96);
+      transition: left .42s var(--ease), top .42s var(--ease), width .42s var(--ease), height .42s var(--ease),
+                  opacity .2s ease, transform .3s var(--ease), border-color .15s ease;
     }
     .win.show { opacity: 1; transform: none; }
     .win.focus { border-color: var(--accent); }
-    .win.float { z-index: 3; box-shadow: 0 0 0 9999px color-mix(in oklch, var(--bg-deep) 35%, transparent); }
-    .win .t { color: var(--dim); margin-bottom: 4px; white-space: nowrap; }
-    .win .ln { white-space: nowrap; }
-    .win .p { color: var(--cyan); }
-    .win .url { border: 1px solid var(--hairline); padding: 1px 6px; margin-bottom: 8px; white-space: nowrap; }
-    .win .blk { height: 8px; background: var(--surface-2); margin: 6px 0; }
-    .win .blk.s { width: 60%; }
-    .win .bar { display: flex; gap: 6px; align-items: center; white-space: nowrap; }
-    .win .bar i { display: block; height: 6px; background: var(--cyan); opacity: .7; }
-    .hypr-now { margin-top: 32px; min-height: 92px; }
-    .hypr-now .keys { display: flex; align-items: center; min-height: 34px; }
-    .hypr-now .keys .kbd { font-size: 16px; height: 2em; }
+    .win.float { z-index: 3; background: var(--surface); }
+    .win b { font-family: var(--font-display); font-size: clamp(13px, 1.1vw, 17px); color: var(--fg); white-space: nowrap; }
+    .win span { font-family: var(--font-mono); font-size: 11px; color: var(--dim); white-space: nowrap; }
+    .hypr-now { margin-top: 36px; min-height: 104px; }
+    .hypr-now .keys { display: flex; align-items: center; min-height: 36px; }
+    .hypr-now .keys .kbd { font-size: 16px; }
     .hypr-now .cap { margin: 12px 0 0; font-size: 18px; color: var(--muted); }
+    .replay {
+      margin-top: 20px; font: 500 13px var(--font-mono); color: var(--muted);
+      background: transparent; border: 1px solid var(--border); padding: 8px 14px; cursor: pointer;
+      transition: color .15s ease, border-color .15s ease, transform .1s ease;
+    }
+    .replay:hover { color: var(--fg); border-color: var(--muted); }
+    .replay:active { transform: translateY(1px); }
+    .replay:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 
-    /* ─── 快捷鍵表 ──────────────────────────────────────────────────── */
-    .hk-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 36px; border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
-    .hk { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-deep); }
-    .hk .what { font-size: 16px; color: var(--fg); }
-    .hk.key-k .what { color: var(--accent); }
+    /* ─── 06 快捷鍵分組 ─────────────────────────────────────────────── */
+    .hk-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(32px, 4vw, 64px); margin-top: 40px; }
+    .hk-col h3 { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--dim); letter-spacing: 0.02em; margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .hk-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .hk-row .what { font-size: 16px; color: var(--fg); }
+    .hk-foot { margin-top: 20px; display: flex; align-items: center; gap: 14px; font-size: 18px; color: var(--muted); }
+    .hk-foot strong { color: var(--accent); font-weight: 500; }
 
-    /* ─── 版面迷你示意 ──────────────────────────────────────────────── */
-    .mini { display: grid; gap: 4px; height: 120px; margin: 0 0 20px; border: 1px solid var(--border); padding: 4px; background: var(--bg-deep); }
+    /* ─── 07 版面比較 ───────────────────────────────────────────────── */
+    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 36px; }
+    .ba-label { font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+    .ba-col h3 { font-family: var(--font-display); font-size: 24px; font-weight: 700; line-height: 1.4; margin: 0 0 10px; max-width: 20ch; }
+    .ba-col p  { color: var(--muted); font-size: 17px; line-height: 1.6; margin: 0; max-width: 34ch; }
+    .mini { display: grid; gap: 4px; height: 132px; margin: 0 0 22px; border: 1px solid var(--border); padding: 4px; background: var(--bg-deep); }
     .mini i { display: block; background: var(--surface-2); border: 1px solid var(--border); }
     .mini.dwindle { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
     .mini.dwindle i:first-child { grid-row: span 2; }
     .mini.scroll { grid-template-columns: repeat(4, 42%); overflow: hidden; }
-    .mini.scroll i:nth-child(n+3) { opacity: .4; }
+    .mini.scroll i:nth-child(n+3) { opacity: .35; }
+    .also { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; font-size: 15px; color: var(--muted); }
+    .also > span:first-child { font-family: var(--font-mono); font-size: 13px; color: var(--dim); }
 
-    /* ─── 終端機區塊 ────────────────────────────────────────────────── */
-    .term { border: 1px solid var(--border); background: var(--bg-deep); font-family: var(--font-mono); font-size: 15px; line-height: 1.75; }
-    .term-h { display: flex; justify-content: space-between; padding: 8px 16px; border-bottom: 1px solid var(--hairline); color: var(--dim); font-size: 12px; }
-    .term-b { padding: 16px 20px; }
-    .term-b .row { display: grid; grid-template-columns: 7.5em 1fr; color: var(--muted); }
-    .term-b .row b { color: var(--cyan); font-weight: 500; }
-    .ag-wrap { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 4vw, 64px); align-items: start; margin-top: 32px; }
-    .ag-wrap .pt { margin-bottom: 22px; }
-    .ag-wrap .pt h3 { font-size: 20px; }
-
-    /* ─── 主題樣本 ──────────────────────────────────────────────────── */
-    .sw-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 36px; }
-    .sw {
-      aspect-ratio: 4 / 3; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;
-      font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--border);
-      background: var(--b); color: var(--f);
+    /* ─── 08 引言 ───────────────────────────────────────────────────── */
+    .quote-text {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      max-width: 22ch;
+      margin: 0 0 32px;
     }
-    .sw .dot { width: 22px; height: 6px; background: var(--f); }
+    .quote-author { font-family: var(--font-mono); font-size: 14px; color: var(--muted); }
 
-    /* ─── closing ───────────────────────────────────────────────────── */
-    .flow { display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; margin: 36px 0 28px; font-family: var(--font-mono); font-size: 16px; }
-    .flow span { border: 1px solid var(--border); padding: 10px 16px; background: var(--bg); }
-    .flow em { font-style: normal; color: var(--dim); }
-    .facts { display: flex; gap: 40px; justify-content: center; }
-    .facts b { display: block; font-family: var(--font-mono); font-size: 22px; color: var(--fg); font-weight: 500; }
+    /* ─── 09 agent 時間線 ───────────────────────────────────────────── */
+    .timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 48px; position: relative; }
+    .timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 1px; background: var(--border); }
+    .tl { padding-right: 28px; position: relative; }
+    .tl::before { content: ""; display: block; width: 11px; height: 11px; background: var(--bg-deep); border: 1px solid var(--muted); margin-bottom: 22px; }
+    .tl .when { font-family: var(--font-mono); font-size: 13px; color: var(--dim); }
+    .tl h3 { font-family: var(--font-display); font-size: 21px; font-weight: 700; margin: 6px 0 10px; line-height: 1.3; }
+    .tl p  { color: var(--muted); margin: 0 0 14px; font-size: 15px; line-height: 1.6; }
 
-    /* ─── chrome (counter, hint, progress) — fixed, never scrolls ──── */
+    /* ─── 10 agent CLI 列表 ─────────────────────────────────────────── */
+    .ag-wrap { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(40px, 5vw, 80px); align-items: start; margin-top: 36px; }
+    .cli { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; font-family: var(--font-mono); font-size: 15px; }
+    .cli div { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--hairline); }
+    .cli b { color: var(--cyan); font-weight: 500; }
+    .cli span { color: var(--muted); text-align: right; font-family: var(--font-body); }
+    .cli-note { margin-top: 18px; }
+    .facts-list h3 { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin: 0 0 8px; }
+    .facts-list p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0 0 26px; }
+
+    /* ─── 11 主題 ───────────────────────────────────────────────────── */
+    .sw-grid { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: minmax(76px, 9vh); gap: 8px; margin-top: 36px; }
+    .sw { padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--hairline); background: var(--b); color: var(--f); }
+    .sw .dot { width: 22px; height: 5px; background: var(--f); }
+    .sw.big { grid-column: span 2; grid-row: span 2; padding: 20px 22px; font-size: 15px; }
+    .sw.big .dot { width: 40px; height: 6px; }
+    .sw.big em { font-style: normal; font-size: 12px; opacity: .75; display: block; margin-top: 4px; }
+
+    /* ─── 12 開發者 ─────────────────────────────────────────────────── */
+    .dev { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(40px, 5vw, 80px); margin-top: 40px; align-items: start; }
+    .dev h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin: 0 0 10px; }
+    .dev p { color: var(--muted); font-size: 16px; line-height: 1.65; margin: 0; }
+    .tokens { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 26px; }
+    .tokens span { font-family: var(--font-mono); font-size: 13px; color: var(--fg); padding: 5px 10px; border: 1px solid var(--border); }
+    .tokens span.def { border-color: var(--muted); background: var(--surface-2); }
+    .side > div + div { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border); }
+
+    /* ─── 13 生態系 ─────────────────────────────────────────────────── */
+    .eco-infra { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 4vw, 64px); margin-top: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    .eco-infra h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: 0 0 8px; }
+    .eco-infra h3 .code { font-size: 15px; font-weight: 400; margin-left: 10px; }
+    .eco-infra p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0; max-width: 40ch; }
+    .chan { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+    .chan span { padding: 4px 10px; border: 1px solid var(--border); }
+    .chan span.on { color: var(--fg); border-color: var(--muted); }
+    .chan em { font-style: normal; color: var(--dim); }
+    .eco-h { font-family: var(--font-mono); font-size: 13px; color: var(--dim); margin: 28px 0 6px; }
+    .ports { display: grid; grid-template-columns: 11em minmax(0, 1fr) 12em; column-gap: 32px; font-size: 16px; }
+    .ports > * { padding: 11px 0; border-bottom: 1px solid var(--hairline); }
+    .ports b { font-family: var(--font-mono); font-weight: 500; color: var(--cyan); font-size: 15px; }
+    .ports .what { color: var(--fg); }
+    .ports .st { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+    .ports .st.off { color: var(--accent); }
+
+    /* ─── 14 收尾 ───────────────────────────────────────────────────── */
+    .flow { display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; margin: 8px 0 44px; font-size: 18px; color: var(--fg); }
+    .flow em { font-style: normal; color: var(--dim); font-family: var(--font-mono); }
+    .facts { display: flex; gap: 56px; justify-content: center; }
+    .facts b { display: block; font-family: var(--font-mono); font-size: 26px; color: var(--fg); font-weight: 500; margin-bottom: 4px; }
+    .source { margin-top: 28px; color: var(--dim); }
+
+    /* ─── chrome (counter, hint, progress), fixed ──────────────────── */
     .deck-counter {
       position: fixed;
       bottom: 24px; right: 32px;
       font-family: var(--font-mono);
       font-size: 12px;
-      color: var(--fg);
-      background: var(--surface);
+      color: var(--muted);
+      background: var(--bg-deep);
       padding: 6px 12px;
-      border: 1px solid var(--border);
-      letter-spacing: 0.04em;
+      border: 1px solid var(--hairline);
       z-index: 10;
     }
     .deck-hint {
       position: fixed;
       bottom: 24px; left: 32px;
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 12px;
       color: var(--dim);
-      letter-spacing: 0.04em;
       z-index: 10;
+      display: flex; gap: 20px;
     }
     .deck-progress {
       position: fixed;
       top: 0; left: 0;
-      height: 3px;
-      background: var(--accent);
+      height: 2px;
+      background: var(--muted);
       width: 0;
       z-index: 10;
       transition: width 0.18s ease;
@@ -365,12 +361,14 @@
       display: none;
     }
     .notes-panel.on { display: block; }
-    .notes-panel .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .08em; margin-bottom: 6px; }
+    .notes-panel .lbl { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 6px; }
 
     @media (max-width: 900px) {
-      .hypr-wrap, .ag-wrap, .ba-grid { grid-template-columns: 1fr; }
-      .pt-grid, .pipeline, .hk-grid { grid-template-columns: 1fr 1fr; }
-      .sw-grid { grid-template-columns: repeat(4, 1fr); }
+      .hypr-wrap, .ag-wrap, .ba-grid, .split, .dev, .diff .pair, .diff-head { grid-template-columns: 1fr; }
+      .eco-infra { grid-template-columns: 1fr; }
+      .ports { grid-template-columns: 1fr 1fr; } .ports .st { display: none; }
+      .hk-cols, .timeline { grid-template-columns: 1fr 1fr; }
+      .sw-grid { grid-template-columns: repeat(3, 1fr); }
     }
     @media (prefers-reduced-motion: reduce) {
       .cursor { animation: none; }
@@ -382,51 +380,35 @@
 
   <!-- 01 ─────────────────────────────────────────────────────────── -->
   <section class="slide hero light center" data-screen-label="01 Cover">
-    <div class="eyebrow">omarchy --version · 4.0.4</div>
+    <div class="eyebrow">omarchy version 4.0.4</div>
     <h1 class="h-hero">Omarchy<span class="cursor"></span></h1>
-    <p class="lead">DHH 打造的 Linux，美麗、有趣、agentic。<br />為 agent 時代而生、可以隨你塑造的作業系統。</p>
+    <p class="lead">DHH 做的 Linux。開機就能用，全程鍵盤操作，AI agent 內建在系統裡。</p>
     <aside class="notes">開場：今天介紹 Omarchy，這是 Rails 作者 DHH 做的 Linux 發行版。官網的定位是「美麗、有趣、agentic」，也就是為 agent 時代設計的可塑型作業系統。今天會聚焦兩件事：鍵盤導向的 Hyprland 平鋪工作流，以及它怎麼把 AI agent 當成系統的一等公民。</aside>
   </section>
 
   <!-- 02 ─────────────────────────────────────────────────────────── -->
   <section class="slide light" data-screen-label="02 Problem">
-    <p class="eyebrow">cat why.md</p>
-    <h2 class="h-xl">Linux 曾經很麻煩。Omarchy 把它全修好了。</h2>
-    <div class="ba-grid">
-      <div class="ba-col">
-        <p class="ba-label">過去的 Linux</p>
-        <h3>安裝繁瑣、除錯困難、一開始就有一堆令人困惑的選擇。</h3>
-        <p>要先研究好幾天，才能擁有一台順手又好看的機器。</p>
-      </div>
-      <div class="ba-col">
-        <p class="ba-label" style="color: var(--accent);">Omarchy</p>
-        <h3>閃電安裝、agent 幫你除錯、出廠就有絕佳預設。</h3>
-        <p>開機就是一套完整可用、而且一打開就很好看的系統。</p>
-      </div>
+    <h2 class="h-xl">Linux 曾經很麻煩。<br />Omarchy 一次把三件事修好。</h2>
+    <div class="diff-head meta"><span>過去的 Linux</span><span>Omarchy</span></div>
+    <div class="diff">
+      <div class="pair"><span class="del">安裝和設定很繁瑣</span><span class="add">寫入 ISO、回答五個問題，就有完整桌面</span></div>
+      <div class="pair"><span class="del">出問題很難除錯</span><span class="add">程式崩潰時，交給 agent 診斷</span></div>
+      <div class="pair"><span class="del">一開始就有一堆令人困惑的選擇</span><span class="add">預設已經挑好，開機就好看、好用</span></div>
     </div>
     <aside class="notes">官網一開頭就點出痛點：Linux 以前設定繁瑣、很難除錯，一開始就要做很多讓人困惑的選擇。Omarchy 用三招解決：很快的安裝、由 agent 除錯所有問題、以及好到可以直接用的預設值。</aside>
   </section>
 
   <!-- 03 ─────────────────────────────────────────────────────────── -->
   <section class="slide dark" data-screen-label="03 What is it">
-    <p class="eyebrow">omarchy about</p>
-    <h2 class="h-xl">一套 omakase 的 Linux 發行版。</h2>
-    <p class="lead">Oma 取自 omakase，意思是「主廚精選」：工具由我們挑、細節由我們調，你直接開工就好。但這終究是你的電腦，每一處都能改。</p>
-    <div class="pt-grid">
-      <div class="pt">
-        <span class="nb">基底</span>
-        <h3>Arch Linux</h3>
-        <p>滾動更新，套件最新，整個系統完全透明。</p>
+    <div class="split">
+      <div>
+        <h2 class="h-xl">Omakase，主廚精選的 Linux。</h2>
+        <p class="lead">Omarchy 的 Oma 取自 omakase：工具和細節都替你挑好、調好，你直接開工。但這終究是你的電腦，每一層都能改。</p>
       </div>
-      <div class="pt">
-        <span class="nb">視窗管理</span>
-        <h3>Hyprland</h3>
-        <p>平鋪式視窗管理器，所有操作都從鍵盤出發。</p>
-      </div>
-      <div class="pt">
-        <span class="nb">桌面套件</span>
-        <h3>Quickshell</h3>
-        <p>桌面建構套件，負責頂部列、面板與各種 widget。</p>
+      <div class="stack" aria-label="Omarchy 系統組成">
+        <div class="layer l1"><b>Quickshell</b><span>桌面建構套件：頂部列、面板、widget</span></div>
+        <div class="layer l2"><b>Hyprland</b><span>平鋪式視窗管理器，所有操作從鍵盤出發</span></div>
+        <div class="layer l3"><b>Arch Linux</b><span>滾動更新的基底，套件永遠是新的</span></div>
       </div>
     </div>
     <aside class="notes">Omarchy 的 Oma 取自日文 omakase，就是主廚精選。它幫你把工具挑好、細節調好。技術上由三層組成：底層是 Arch Linux，視窗管理是 Hyprland，桌面元件用 Quickshell 打造。重點是：預設由他們決定，但每一處你都能改。</aside>
@@ -435,7 +417,7 @@
   <!-- 04 ─────────────────────────────────────────────────────────── -->
   <section class="slide hero dark center" data-screen-label="04 Big stat">
     <div class="stat-num">35<span class="unit">秒</span></div>
-    <p class="stat-caption">在最快的機器上，從 USB 到完整桌面只要 35 秒；多數電腦不到兩分鐘。寫入 ISO、回答五個問題就完成。</p>
+    <p class="stat-caption">在最快的機器上，從 USB 開機到完整桌面只要 35 秒。大多數電腦不到兩分鐘。</p>
     <aside class="notes">安裝速度是官網特別強調的數字：最快的機器 35 秒，大多數電腦兩分鐘以內。流程只有寫入 ISO 到 USB、回答五個問題，就會交回一套完整桌面。也可以先在 Mac 或 Windows 的虛擬機裡試用。</aside>
   </section>
 
@@ -444,165 +426,153 @@
     <div class="hypr-wrap">
       <div>
         <p class="eyebrow">hyprctl dispatch</p>
-        <h2 class="h-xl">一切都靠鍵盤。真的是一切。</h2>
-        <p class="lead">剛開機時，光用滑鼠什麼都做不了。開視窗會自動平鋪、不重疊，不必再拖曳或調整大小。</p>
+        <h2 class="h-xl">一切都靠鍵盤。</h2>
+        <p class="lead">剛開機時，光用滑鼠什麼都做不了。新視窗會自動平鋪，不重疊，也不用拖曳調整。</p>
         <div class="hypr-now" aria-live="polite">
           <div class="keys" id="hypr-keys"></div>
           <p class="cap" id="hypr-cap">空的工作區</p>
         </div>
+        <button class="replay" id="hypr-replay" type="button">重播示範</button>
       </div>
-      <div class="hypr" aria-label="Hyprland 平鋪視窗示範">
+      <div class="hypr" aria-label="Hyprland 平鋪視窗示意圖">
         <div class="hypr-bar">
           <span class="ws"><span class="on">1</span><span>2</span><span>3</span><span>4</span><span>5</span></span>
-          <span>omarchy</span>
           <span>14:32</span>
         </div>
         <div class="hypr-desk" id="hypr-desk">
-          <div class="hypr-idle">SUPER + SPACE</div>
-          <div class="win" data-w="term">
-            <div class="t">foot — ~/Work</div>
-            <div class="ln"><span class="p">~/Work $</span> omarchy update</div>
-            <div class="ln">:: synchronizing package databases</div>
-            <div class="ln">:: system is up to date</div>
-            <div class="ln"><span class="p">~/Work $</span> nvim app.rb</div>
-          </div>
-          <div class="win" data-w="web">
-            <div class="url">omarchy.org</div>
-            <div class="blk"></div><div class="blk s"></div><div class="blk"></div><div class="blk s"></div>
-          </div>
-          <div class="win" data-w="files">
-            <div class="t">files — ~</div>
-            <div class="ln">▸ Documents</div><div class="ln">▸ Downloads</div><div class="ln">▸ Work</div><div class="ln">▸ Pictures</div>
-          </div>
-          <div class="win" data-w="btop">
-            <div class="t">btop — activity</div>
-            <div class="bar">cpu <i style="width:48%"></i></div>
-            <div class="bar">mem <i style="width:30%"></i></div>
-            <div class="bar">net <i style="width:62%"></i></div>
-          </div>
+          <div class="hypr-idle">Super + Space</div>
+          <div class="win" data-w="term"><b>終端機</b><span>Super + Return</span></div>
+          <div class="win" data-w="web"><b>瀏覽器</b><span>Super + Shift + Return</span></div>
+          <div class="win" data-w="files"><b>檔案</b><span>Super + Shift + F</span></div>
+          <div class="win" data-w="btop"><b>btop</b><span>Super + Ctrl + T</span></div>
         </div>
       </div>
     </div>
-    <aside class="notes">這是 Omarchy 最核心的體驗。手冊原文寫著：所有事情都透過鍵盤完成。右邊的示範照著手冊的教學跑一遍：Super+Return 開終端機，Super+Shift+Return 開瀏覽器，視窗自動左右平鋪；Super+J 切換上下堆疊；再開檔案管理員；Super+Ctrl+T 開出浮動的 btop，Super+T 把它平鋪進來，就是一個四格版面。整個過程手不必離開鍵盤。</aside>
+    <aside class="notes">這是 Omarchy 最核心的體驗。手冊原文寫著：所有事情都透過鍵盤完成。右邊的示意照著手冊的教學跑一遍：Super+Return 開終端機，Super+Shift+Return 開瀏覽器，視窗自動左右平鋪；Super+J 切換上下堆疊；再開檔案管理員；Super+Ctrl+T 開出浮動的 btop，Super+T 把它平鋪進來，就是一個四格版面。整個過程手不必離開鍵盤。進到這頁會自動播一次，可以按「重播示範」再看。</aside>
   </section>
 
   <!-- 06 ─────────────────────────────────────────────────────────── -->
   <section class="slide dark" data-screen-label="06 Hotkeys">
-    <p class="eyebrow">omarchy hotkeys</p>
-    <h2 class="h-md">記住 Super 鍵，就掌握了整個系統。</h2>
-    <div class="hk-grid">
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Space</span></div><span class="what">Omarchy 選單（一切的入口）</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Return</span></div><span class="what">開啟終端機</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">Return</span></div><span class="what">開啟瀏覽器</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">←↑↓→</span></div><span class="what">移動焦點到相鄰視窗</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">←↑↓→</span></div><span class="what">與相鄰視窗交換位置</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">J</span></div><span class="what">切換水平 / 垂直分割</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">T</span></div><span class="what">平鋪 ↔ 浮動</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">1–4</span></div><span class="what">跳到指定工作區</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">1–4</span></div><span class="what">把視窗搬到工作區</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">F</span></div><span class="what">全螢幕</span></div>
-      <div class="hk"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">W</span></div><span class="what">關閉視窗</span></div>
-      <div class="hk key-k"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">K</span></div><span class="what">忘了？列出所有快捷鍵</span></div>
+    <h2 class="h-md">記住 Super 鍵，就能操作整個系統。</h2>
+    <div class="hk-cols">
+      <div class="hk-col">
+        <h3>開啟</h3>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Space</span></div><span class="what">Omarchy 選單，一切的入口</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Return</span></div><span class="what">終端機</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">Return</span></div><span class="what">瀏覽器</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">W</span></div><span class="what">關閉視窗</span></div>
+      </div>
+      <div class="hk-col">
+        <h3>排列</h3>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">←↑↓→</span></div><span class="what">移動焦點</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">←↑↓→</span></div><span class="what">和相鄰視窗交換位置</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">J</span></div><span class="what">切換水平 / 垂直分割</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">T</span></div><span class="what">平鋪和浮動互換</span></div>
+      </div>
+      <div class="hk-col">
+        <h3>工作區</h3>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">1-4</span></div><span class="what">跳到指定工作區</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">1-4</span></div><span class="what">把視窗搬過去</span></div>
+        <div class="hk-row"><div><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">F</span></div><span class="what">全螢幕</span></div>
+      </div>
     </div>
+    <p class="hk-foot"><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">K</span><span>忘了的時候，<strong>列出所有快捷鍵</strong></span></p>
     <aside class="notes">這 12 組是每天最常用的快捷鍵，全部取自官方手冊。可以分成三類：開東西（選單、終端機、瀏覽器）、排視窗（焦點、交換、分割、浮動）、管工作區。最後一個最重要：Super+K 會列出所有快捷鍵，忘了隨時查得到，學習成本因此低很多。</aside>
   </section>
 
   <!-- 07 ─────────────────────────────────────────────────────────── -->
   <section class="slide light" data-screen-label="07 Layouts">
-    <p class="eyebrow">Super + L</p>
     <h2 class="h-md">兩種平鋪版面，每個工作區各自記住。</h2>
     <div class="ba-grid">
       <div class="ba-col">
-        <div class="mini dwindle"><i></i><i></i><i></i></div>
-        <p class="ba-label" style="color: var(--accent);">Dwindle · 預設</p>
+        <div class="mini dwindle" aria-hidden="true"><i></i><i></i><i></i></div>
+        <p class="ba-label">Dwindle，預設</p>
         <h3>所有視窗同時可見，必要時就縮小。</h3>
-        <p>適合瀏覽、溝通，以及要一眼看完全部視窗的工作區。</p>
+        <p>適合上網和溝通，要一眼看完全部視窗的時候。</p>
       </div>
       <div class="ba-col">
-        <div class="mini scroll"><i></i><i></i><i></i><i></i></div>
-        <p class="ba-label">Scrolling</p>
-        <h3>視窗並排延伸，超出螢幕邊緣也沒關係。</h3>
-        <p>適合寫程式：編輯器、終端機、文件一字排開，用捲動切換。</p>
+        <div class="mini scroll" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <p class="ba-label">Scrolling，按 Super + L 切換</p>
+        <h3>視窗一字排開，超出螢幕邊緣也沒關係。</h3>
+        <p>適合寫程式：編輯器、終端機、文件並排，用捲動切換。</p>
       </div>
     </div>
-    <p class="meta" style="margin-top: 32px;">另外還有：Super + G 群組視窗 · Super + S 便籤區（scratchpad） · Super + O 置頂浮動</p>
+    <div class="also">
+      <span>還有</span>
+      <span><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">G</span> 群組視窗</span>
+      <span><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">S</span> 便籤區 scratchpad</span>
+      <span><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">O</span> 置頂浮動</span>
+    </div>
     <aside class="notes">Hyprland 在 Omarchy 裡有兩種版面。Dwindle 是預設，所有視窗都看得到；Scrolling 讓視窗往右延伸到螢幕外。按 Super+L 就能切換，而且是每個工作區分開記住、重開機也不會跑掉。例如工作區 1 用 dwindle 上網，工作區 2 用 scrolling 寫程式。另外還有視窗群組、scratchpad 等進階功能。</aside>
   </section>
 
   <!-- 08 ─────────────────────────────────────────────────────────── -->
   <section class="slide hero light center" data-screen-label="08 Quote">
-    <div class="quote-mark">"</div>
-    <p class="quote-text">既然你能 vibe code 出任何想得到的 app，你也應該能 vibe code 你的作業系統。</p>
-    <p class="quote-author">— David Heinemeier Hansson，Omarchy 作者</p>
+    <p class="quote-text">「既然你能 vibe code 出任何想得到的 app，你也應該能 vibe code 你的作業系統。」</p>
+    <p class="quote-author">David Heinemeier Hansson，Omarchy 作者</p>
     <aside class="notes">這句是 DHH 寫在官網首頁的話，也是下一段的轉折。鍵盤和平鋪讓你操作很快；agent 則讓你能改造整個系統。接下來看 Omarchy 怎麼做到 agent first。</aside>
   </section>
 
   <!-- 09 ─────────────────────────────────────────────────────────── -->
   <section class="slide dark" data-screen-label="09 Agent first">
     <p class="eyebrow">omarchy agent</p>
-    <h2 class="h-xl">Agent 不是外掛，是系統的一等公民。</h2>
-    <p class="lead">你的 agent 應該在電腦上待得很自在。Omarchy 給它工具和 skill，幫你理解、修復、塑造整個系統。</p>
-    <div class="pipeline">
-      <div class="step">
-        <span class="nb">01 · 首次開機</span>
-        <h3>選擇你的 agent</h3>
-        <p>系統主動邀請你設定預設 agent，登入後就能上工。</p>
+    <h2 class="h-xl">Agent 不是外掛，是系統的一部分。</h2>
+    <p class="lead">Omarchy 給 agent 工具和 skill，讓它幫你理解、修復、改造整個系統。</p>
+    <div class="timeline">
+      <div class="tl">
+        <span class="when">首次開機</span>
+        <h3>選一個預設 agent</h3>
+        <p>系統跳出通知邀請你設定，登入後就能上工。</p>
         <span class="code">omarchy default agent</span>
       </div>
-      <div class="step">
-        <span class="nb">02 · 一鍵喚起</span>
-        <h3>隨時叫出來</h3>
-        <p>在專屬終端機視窗中啟動預設 agent，也能直接交辦任務。</p>
+      <div class="tl">
+        <span class="when">隨時</span>
+        <h3>一鍵叫出來</h3>
+        <p>在專屬終端機視窗裡啟動，也能直接交辦任務。</p>
         <span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">A</span>
       </div>
-      <div class="step">
-        <span class="nb">03 · 崩潰診斷</span>
+      <div class="tl">
+        <span class="when">程式崩潰時</span>
         <h3>讀懂 crash dump</h3>
-        <p>程式崩潰時點一下通知，agent 就帶著 diagnose-crash skill 分析原因，並協助回報 bug。</p>
+        <p>點一下通知，agent 帶著 diagnose-crash skill 找出原因，判斷要不要回報 bug。</p>
         <span class="code">omarchy agent crash &lt;pid&gt;</span>
       </div>
-      <div class="step">
-        <span class="nb">04 · 塑造系統</span>
+      <div class="tl">
+        <span class="when">想改造時</span>
         <h3>做 app、外掛、主題</h3>
-        <p>內建的 Omarchy Skill 讓 agent 能調整 Hyprland 設定、頂部列，甚至從零做出新主題。</p>
+        <p>內建的 Omarchy Skill 讓 agent 能改 Hyprland 設定、頂部列，甚至從零做主題。</p>
         <span class="code">~/.claude/skills</span>
       </div>
     </div>
-    <aside class="notes">這是第二個重點：agent first。官網把 agent 當成系統的一等公民，可以分成四步看。第一，首次開機就會邀請你選預設 agent。第二，Super+Shift+Ctrl+A 隨時叫出來，或用 omarchy agent prompt 直接交辦任務。第三，系統會監看 systemd-coredump，程式崩潰時跳通知，點一下就交給 agent 診斷。第四，內建的 Omarchy Skill 會連結到 Claude Code、Codex、Pi 等的 skill 目錄，讓 agent 能改設定、做主題。手冊也提醒這個 skill 還在實驗階段，建議先用 plan mode。</aside>
+    <aside class="notes">這是第二個重點：agent first。官網把 agent 當成系統的一等公民，可以分成四個時機看。第一，首次開機就會邀請你選預設 agent。第二，Super+Shift+Ctrl+A 隨時叫出來，或用 omarchy agent prompt 直接交辦任務。第三，系統會監看 systemd-coredump，程式崩潰時跳通知，點一下就交給 agent 診斷。第四，內建的 Omarchy Skill 會連結到 Claude Code、Codex、Pi 等的 skill 目錄，讓 agent 能改設定、做主題。手冊也提醒這個 skill 還在實驗階段，建議先用 plan mode。</aside>
   </section>
 
   <!-- 10 ─────────────────────────────────────────────────────────── -->
   <section class="slide light" data-screen-label="10 Agent CLIs">
-    <p class="eyebrow">ls ~/.local/bin</p>
-    <h2 class="h-md">每個主流 coding agent，都已預先接好線。</h2>
+    <h2 class="h-md">主流的 coding agent，全部預先接好。</h2>
     <div class="ag-wrap">
-      <div class="term">
-        <div class="term-h"><span>foot — agents</span><span>lazy-loaded via mise</span></div>
-        <div class="term-b">
-          <div class="row"><b>claude</b><span>Claude Code</span></div>
-          <div class="row"><b>codex</b><span>OpenAI Codex</span></div>
-          <div class="row"><b>opencode</b><span>OpenCode</span></div>
-          <div class="row"><b>agy</b><span>Google Antigravity CLI</span></div>
-          <div class="row"><b>copilot</b><span>GitHub Copilot CLI</span></div>
-          <div class="row"><b>crush</b><span>Crush</span></div>
-          <div class="row"><b>grok</b><span>Grok CLI（xAI）</span></div>
-          <div class="row"><b>pi</b><span>Pi · omp（Oh My Pi）</span></div>
-          <div class="row"><b>ori</b><span>OpenRouter 全模型目錄</span></div>
-        </div>
-      </div>
       <div>
-        <div class="pt">
-          <h3>不替你選邊站</h3>
-          <p>每個 CLI 都是 mise 管理的小型 stub，第一次執行時才下載，不佔空間。</p>
+        <div class="cli">
+          <div><b>claude</b><span>Claude Code</span></div>
+          <div><b>codex</b><span>OpenAI Codex</span></div>
+          <div><b>opencode</b><span>OpenCode</span></div>
+          <div><b>agy</b><span>Antigravity CLI</span></div>
+          <div><b>copilot</b><span>GitHub Copilot CLI</span></div>
+          <div><b>crush</b><span>Crush</span></div>
+          <div><b>grok</b><span>Grok CLI</span></div>
+          <div><b>pi</b><span>Pi</span></div>
+          <div><b>omp</b><span>Oh My Pi</span></div>
+          <div><b>ori</b><span>OpenRouter 全模型</span></div>
         </div>
-        <div class="pt">
-          <h3>Agents 面板</h3>
-          <p>頂部列集中顯示每個訂閱的方案、5 小時與每週額度用量，以及依模型統計的 token。</p>
-        </div>
-        <div class="pt">
-          <h3>主題同步</h3>
-          <p>切換系統主題時，Claude Code、Pi、OpenCode 會一起換色。</p>
-        </div>
+        <p class="meta cli-note">在終端機輸入 a，就會執行你的預設 agent</p>
+      </div>
+      <div class="facts-list">
+        <h3>不替你選邊站</h3>
+        <p>每個 CLI 都是 mise 管理的小 stub，第一次執行才下載。</p>
+        <h3>用量集中在一個面板</h3>
+        <p>頂部列追蹤每個訂閱的方案、5 小時與每週額度，以及各模型的 token 用量。</p>
+        <h3>跟著主題換色</h3>
+        <p>切換系統主題時，Claude Code、Pi、OpenCode 會一起換。</p>
       </div>
     </div>
     <aside class="notes">Omarchy 不幫你選 agent，而是把主流的全部預先接好：Claude Code、Codex、OpenCode、Antigravity、Copilot、Crush、Grok、Pi，還有 OpenRouter 的 ori。它們都是延遲載入的小 stub，第一次執行才會下載。頂部列的 agents 面板會集中追蹤所有訂閱的用量。連換主題時，agent 的終端介面也會一起換色。另外，終端機裡直接打 a，就會執行預設 agent。</aside>
@@ -610,11 +580,10 @@
 
   <!-- 11 ─────────────────────────────────────────────────────────── -->
   <section class="slide dark" data-screen-label="11 Themes">
-    <p class="eyebrow">omarchy theme set</p>
     <h2 class="h-md">換一個主題，整個系統跟著換。</h2>
-    <p class="lead">終端機、頂部列、通知、桌布一次全部重新上色。內建 22 款，社群還有更多。</p>
+    <p class="lead">終端機、頂部列、通知、桌布一次重新上色。內建 22 款，社群還有更多。</p>
     <div class="sw-grid">
-      <div class="sw" style="--b: var(--sw-tokyo-bg); --f: var(--sw-tokyo-fg);"><span class="dot"></span>Tokyo Night</div>
+      <div class="sw big" style="--b: var(--sw-tokyo-bg); --f: var(--sw-tokyo-fg);"><span class="dot"></span><span>Tokyo Night<em>預設主題，也是這份簡報的配色</em></span></div>
       <div class="sw" style="--b: var(--sw-catp-bg);  --f: var(--sw-catp-fg);"><span class="dot"></span>Catppuccin</div>
       <div class="sw" style="--b: var(--sw-gruv-bg);  --f: var(--sw-gruv-fg);"><span class="dot"></span>Gruvbox</div>
       <div class="sw" style="--b: var(--sw-nord-bg);  --f: var(--sw-nord-fg);"><span class="dot"></span>Nord</div>
@@ -632,48 +601,78 @@
 
   <!-- 12 ─────────────────────────────────────────────────────────── -->
   <section class="slide light" data-screen-label="12 Everything else">
-    <p class="eyebrow">omarchy menu › install</p>
-    <h2 class="h-xl">為開發者打造，也能玩、也能跑 Windows。</h2>
-    <div class="pt-grid">
-      <div class="pt">
-        <span class="nb">開發</span>
-        <h3>工具都已整合好</h3>
-        <p>預設編輯器是 Neovim，也能裝 VSCode、Cursor、Zed。終端機有 Foot、Alacritty、Ghostty、Kitty 可選。Rails、Laravel、Node.js 從選單一鍵安裝，Mise 管理語言版本。</p>
+    <h2 class="h-xl">為開發者打造，也能玩遊戲、跑 Windows。</h2>
+    <div class="dev">
+      <div>
+        <h3>開發工具都已整合</h3>
+        <p>Rails、Laravel、Node.js 從選單一鍵安裝，Mise 管理每個專案的語言版本。</p>
+        <div class="tokens" aria-label="編輯器與終端機">
+          <span class="def">Neovim</span><span>VSCode</span><span>Cursor</span><span>Zed</span><span>Helix</span><span>Emacs</span>
+          <span class="def">Foot</span><span>Alacritty</span><span>Ghostty</span><span>Kitty</span>
+          <span>Docker</span><span>Lazygit</span><span>Tmux</span>
+        </div>
+        <p class="meta">外框較亮的是預設：編輯器用 Neovim，終端機用 Foot</p>
       </div>
-      <div class="pt">
-        <span class="nb">遊戲與 Windows</span>
-        <h3>工作和娛樂都行</h3>
-        <p>Steam、Proton、RetroArch、Minecraft 都已就緒，包含 NVIDIA 在內的驅動在安裝時搞定。內建 Windows 11 虛擬機，可以跑 Office 和其他 Windows 專用軟體。</p>
-      </div>
-      <div class="pt">
-        <span class="nb">硬體</span>
-        <h3>幾乎什麼機器都能跑</h3>
-        <p>從最新的 Dell XPS、讓舊 Intel Mac 重獲新生，到 2011 年只有 2GB RAM 的 ThinkPad X220 都可以。</p>
+      <div class="side">
+        <div>
+          <h3>遊戲與 Windows</h3>
+          <p>Steam、Proton、RetroArch、Minecraft 都已就緒，NVIDIA 驅動在安裝時搞定。需要 Office 就開 Windows 11 虛擬機。</p>
+        </div>
+        <div>
+          <h3>老機器也能跑</h3>
+          <p>從最新的 Dell XPS、舊的 Intel Mac，到 2011 年只有 2GB RAM 的 ThinkPad X220。</p>
+        </div>
       </div>
     </div>
     <aside class="notes">最後快速帶過其他面向。開發：Neovim 是預設，其他主流編輯器、四種終端機、各種語言環境都整合好了。遊戲：Steam 和 RetroArch 都設定好，連 NVIDIA 驅動也是。需要 Office 的話有 Windows 11 虛擬機，但它沒有 GPU 加速，不適合拿來打遊戲。硬體需求很低，2GB RAM 的老 ThinkPad 都能跑。</aside>
   </section>
 
   <!-- 13 ─────────────────────────────────────────────────────────── -->
-  <section class="slide hero dark center" data-screen-label="13 Closing">
-    <div class="eyebrow">omarchy.org</div>
+  <section class="slide dark" data-screen-label="13 Ecosystem">
+    <h2 class="h-md">社群把 Omarchy 帶到更多機器上。</h2>
+    <div class="eco-infra">
+      <div>
+        <h3>套件庫<span class="code">pkgs.omarchy.org</span></h3>
+        <p>Omarchy 自己的 Arch 套件庫，同時建置 x86_64 和 aarch64 版本，ARM 移植因此有地方發佈更新。</p>
+        <div class="chan" aria-label="發佈頻道"><span>edge</span><em>→</em><span>rc</span><em>→</em><span class="on">stable</span></div>
+      </div>
+      <div>
+        <h3>Plugin 註冊中心<span class="code">plugins.omarchy.org</span></h3>
+        <p>數千個社群 plugin，可以先看原始碼再複製指令安裝。例如 Radio Atlas 地球儀電台、AirPods 電量、Omagotchi 桌面寵物、Time Machine 備份。</p>
+      </div>
+    </div>
+    <p class="eco-h">移植與延伸專案</p>
+    <div class="ports">
+      <b>omarchy-mac</b><span class="what">Apple Silicon M1/M2，透過 Asahi Alarm 和 macOS 並存，一行指令安裝</span><span class="st off">omacom 組織維護</span>
+      <b>Dragon 團隊</b><span class="what">Snapdragon 筆電</span><span class="st">官方團隊開發中</span>
+      <b>omarchy-pi</b><span class="what">Raspberry Pi 5，目標是可直接燒錄的 SD 卡映像檔；Pi 4 另有 omarchy-4-pi</span><span class="st">alpha，尚未在實機驗證</span>
+      <b>omarchy-arm</b><span class="what">裝在現有 Arch Linux ARM 上：Apple Silicon、Pi 5、aarch64 VM</span><span class="st">非官方移植</span>
+      <b>Pimarchy</b><span class="what">把 Raspberry Pi OS Lite 改成 Omarchy 風格的 Wayland 桌面</span><span class="st">受 Omarchy 啟發</span>
+      <b>omarchy-hardware</b><span class="what">Arduino、ESP32、Pico、GPIO 的頂部列 widget，加一個讓 Claude 操作硬體的 MCP server</span><span class="st">社群專案</span>
+    </div>
+    <aside class="notes">最後補充 Omarchy 的生態系。官方有兩個基礎建設：pkgs.omarchy.org 是自家的 Arch 套件庫，分 edge、rc、stable 三個頻道，而且同時建置 x86_64 和 ARM 版本；plugins.omarchy.org 是社群 plugin 的註冊中心，已經有數千個。在這之上，社群把 Omarchy 帶到更多硬體：omarchy-mac 讓 Apple Silicon 的 M1、M2 跟 macOS 並存，官方團隊頁有專門的 Mac 小組；Dragon 小組在做 Snapdragon 筆電；omarchy-pi 把它移植到 Raspberry Pi 5，目前是 alpha，還沒在實機上驗證；omarchy-arm 是非官方的 ARM 移植。還有受啟發的專案，例如 Pimarchy，以及讓 Claude 透過 MCP 控制 Arduino 和 ESP32 的 omarchy-hardware，剛好呼應 agent first 的主軸。這些專案狀態變化很快，以各自 GitHub 的說明為準。</aside>
+  </section>
+
+  <!-- 14 ─────────────────────────────────────────────────────────── -->
+  <section class="slide hero dark center" data-screen-label="14 Closing">
+    <div class="eyebrow">open omarchy.org</div>
     <h2 class="h-hero">We can fix everything.</h2>
     <div class="flow">
-      <span>寫入 ISO 到 USB</span><em>→</em><span>回答 5 個問題</span><em>→</em><span>完整桌面</span><em>→</em><span><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Space</span></span>
+      <span>寫入 ISO 到 USB</span><em>→</em><span>回答五個問題</span><em>→</em><span>按下</span><span><span class="kbd">Super</span><span class="plus">+</span><span class="kbd">Space</span></span>
     </div>
     <div class="facts meta">
       <div><b>1,214,755</b>第一年 ISO 下載次數</div>
       <div><b>43,676</b>GitHub stars</div>
-      <div><b>Super + K</b>忘了快捷鍵時</div>
     </div>
+    <p class="meta source">數據取自 omarchy.org，2026 年 9 月</p>
     <aside class="notes">收尾：官網的口號是 We can fix everything。想試的話，寫入 ISO、回答五個問題就有一套完整桌面，也可以先在 Mac 或 Windows 用虛擬機試玩。數字取自官網：第一年 ISO 下載超過 121 萬次，GitHub 有 4.3 萬顆星。開機後記得兩個鍵：Super+Space 打開選單，Super+K 查快捷鍵。剩下的，交給你的 agent。</aside>
   </section>
 
   <!-- chrome -->
   <div class="deck-progress" id="deck-progress" aria-hidden></div>
-  <div class="deck-counter"  id="deck-counter">1 / 13</div>
-  <div class="deck-hint">← / → 換頁 · N 講者備註</div>
-  <div class="notes-panel" id="notes-panel"><div class="lbl" id="notes-lbl">SPEAKER NOTES</div><div id="notes-body"></div></div>
+  <div class="deck-counter"  id="deck-counter">1 / 14</div>
+  <div class="deck-hint"><span>← → 換頁</span><span>N 講者備註</span></div>
+  <div class="notes-panel" id="notes-panel"><div class="lbl" id="notes-lbl">講者備註</div><div id="notes-body"></div></div>
 
   <script>
     /*
@@ -802,25 +801,32 @@
       function render() {
         var s = slides[current()];
         var n = s && s.querySelector('.notes');
-        lbl.textContent = 'SPEAKER NOTES · ' + (s ? s.getAttribute('data-screen-label') : '');
-        body.textContent = n ? n.textContent : '—';
+        lbl.textContent = '講者備註 ／ ' + (s ? s.getAttribute('data-screen-label') : '');
+        body.textContent = n ? n.textContent : '（這頁沒有備註）';
       }
       new MutationObserver(render).observe(counter, { childList: true, characterData: true, subtree: true });
-      function onKey(e) {
+      window.addEventListener('keydown', function (e) {
         if (e.key === 'n' || e.key === 'N') { panel.classList.toggle('on'); render(); }
-      }
-      window.addEventListener('keydown', onKey);
+      });
       render();
     })();
   </script>
 
   <script>
-    /* Hyprland 平鋪示範：依手冊 Navigation 章節的操作順序循環播放 */
+    /*
+      Hyprland 平鋪示意：依手冊 Navigation 章節的操作順序播放一次。
+      進入第 05 頁才開始，播完停在四格版面；「重播示範」可再看一次。
+    */
     (function () {
-      var desk = document.getElementById('hypr-desk');
-      var keysEl = document.getElementById('hypr-keys');
-      var capEl = document.getElementById('hypr-cap');
-      var idle = desk.querySelector('.hypr-idle');
+      var slides  = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var host    = document.querySelector('[data-screen-label="05 Hyprland"]');
+      var hostIdx = slides.indexOf(host);
+      var counter = document.getElementById('deck-counter');
+      var desk    = document.getElementById('hypr-desk');
+      var keysEl  = document.getElementById('hypr-keys');
+      var capEl   = document.getElementById('hypr-cap');
+      var replay  = document.getElementById('hypr-replay');
+      var idle    = desk.querySelector('.hypr-idle');
       var wins = {};
       desk.querySelectorAll('.win').forEach(function (w) { wins[w.dataset.w] = w; });
 
@@ -834,10 +840,11 @@
         { k: ['Super', 'J'], c: '切換成上下堆疊', l: { term: [0, 0, 100, 50], web: [0, 50, 100, 50] }, f: 'web' },
         { k: ['Super', 'J'], c: '再按一次，回到左右並排', l: T2, f: 'web' },
         { k: ['Super', 'Shift', 'F'], c: '開啟檔案管理員，分割目前的視窗', l: T3, f: 'files' },
-        { k: ['Super', 'Ctrl', 'T'], c: 'Activity（btop）以浮動視窗出現', l: Object.assign({ btop: [22, 16, 56, 64] }, T3), f: 'btop', fl: 'btop' },
+        { k: ['Super', 'Ctrl', 'T'], c: 'btop 以浮動視窗出現', l: Object.assign({ btop: [24, 18, 52, 60] }, T3), f: 'btop', fl: 'btop' },
         { k: ['Super', 'T'], c: '把它平鋪進來，四格版面完成', l: T4, f: 'btop' },
-        { k: ['Super', '←'], c: '用方向鍵移動焦點', l: T4, f: 'term', hold: 2600 }
+        { k: ['Super', '←'], c: '用方向鍵在視窗之間移動焦點', l: T4, f: 'term' }
       ];
+      var LAST = steps.length - 1;
 
       function place(w, r) {
         var g = 4;
@@ -845,9 +852,6 @@
         w.style.top    = 'calc(' + r[1] + '% + ' + g + 'px)';
         w.style.width  = 'calc(' + r[2] + '% - ' + (g * 2) + 'px)';
         w.style.height = 'calc(' + r[3] + '% - ' + (g * 2) + 'px)';
-      }
-      function renderKeys(k) {
-        keysEl.innerHTML = k.map(function (x) { return '<span class="kbd">' + x + '</span>'; }).join('<span class="plus">+</span>');
       }
       function apply(s) {
         Object.keys(wins).forEach(function (name) {
@@ -858,21 +862,37 @@
           w.classList.toggle('float', s.fl === name);
         });
         idle.style.opacity = Object.keys(s.l).length ? 0 : 1;
-        renderKeys(s.k);
+        keysEl.innerHTML = s.k.map(function (x) { return '<span class="kbd">' + x + '</span>'; }).join('<span class="plus">+</span>');
         capEl.textContent = s.c;
       }
 
-      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        apply(steps[7]);
-        return;
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var timer = null;
+      function stop() { if (timer) { clearTimeout(timer); timer = null; } }
+      function play() {
+        stop();
+        if (reduce) { apply(steps[LAST]); return; }
+        var i = 0;
+        (function tick() {
+          apply(steps[i]);
+          if (i >= LAST) { timer = null; return; }
+          i++;
+          timer = setTimeout(tick, 1500);
+        })();
       }
-      var i = 0;
-      (function tick() {
-        apply(steps[i]);
-        var wait = steps[i].hold || 1700;
-        i = (i + 1) % steps.length;
-        setTimeout(tick, wait);
-      })();
+      var lastIdx = -1;
+      function onSlideChange() {
+        var idx = Math.max(0, parseInt(counter.textContent, 10) - 1) || 0;
+        if (idx === lastIdx) return;
+        lastIdx = idx;
+        if (idx === hostIdx) play();
+        else { stop(); apply(steps[LAST]); }
+      }
+
+      replay.addEventListener('click', play);
+      new MutationObserver(onSlideChange).observe(counter, { childList: true, characterData: true, subtree: true });
+      apply(steps[LAST]);
+      onSlideChange();
     })();
   </script>
 </body>
