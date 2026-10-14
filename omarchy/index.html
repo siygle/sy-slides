@@ -5,7 +5,7 @@
   導覽腳本為 seed 原版，未改動；講者備註按 N 切換。
 -->
 <html lang="zh-Hant">
-<head>
+<head><script type="application/json" data-od-external-dependencies>["https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"]</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Omarchy：為 Agent 時代打造的 Linux</title>
@@ -326,6 +326,19 @@
     .facts { display: flex; gap: 56px; justify-content: center; }
     .facts b { display: block; font-family: var(--font-mono); font-size: 26px; color: var(--fg); font-weight: 500; margin-bottom: 4px; }
     .source { margin-top: 28px; color: var(--dim); }
+
+    /* ─── 15 Voxtype demo ──────────────────────────────────────────── */
+    [data-od-id="voxtype-demo-heading"] { line-height: 1.35; letter-spacing: 0; max-width: 28ch; }
+    .voice-demo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 64px); margin-top: 52px; }
+    .voice-step { min-width: 0; padding: 24px 0 26px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--hairline); position: relative; }
+    .voice-step + .voice-step::before { content: "→"; position: absolute; left: -32px; top: 52%; color: var(--dim); font-family: var(--font-mono); font-size: 18px; }
+    .voice-step .nb { display: block; font-family: var(--font-mono); font-size: 13px; color: var(--dim); letter-spacing: 0.08em; margin-bottom: 34px; }
+    .voice-step h3 { font-family: var(--font-display); font-size: clamp(24px, 2.1vw, 30px); line-height: 1.35; margin: 0 0 12px; }
+    .voice-step p { color: var(--muted); font-size: 17px; line-height: 1.7; margin: 0; max-width: 24ch; }
+    .voice-keywords { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 28px; font-family: var(--font-mono); font-size: 14px; color: var(--fg); }
+    .voice-result { display: flex; align-items: baseline; justify-content: space-between; gap: 32px; margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); }
+    .voice-result strong { font-family: var(--font-display); font-size: 22px; line-height: 1.4; color: var(--accent); }
+    .voice-result span { color: var(--muted); font-size: 16px; text-align: right; }
 
     /* ─── chrome (counter, hint, progress), fixed ──────────────────── */
     .deck-counter {
@@ -684,9 +697,40 @@
     <aside class="notes">收尾：官網的口號是 We can fix everything。想試的話，寫入 ISO、回答五個問題就有一套完整桌面，也可以先在 Mac 或 Windows 用虛擬機試玩。數字取自官網：第一年 ISO 下載超過 121 萬次，GitHub 有 4.3 萬顆星。開機後記得兩個鍵：Super+Space 打開選單，Super+K 查快捷鍵。剩下的，交給你的 agent。</aside>
   </section>
 
+  <!-- 15 ─────────────────────────────────────────────────────────── -->
+  <section class="slide light" data-screen-label="15 Voxtype demo" data-od-id="voxtype-demo-slide">
+    <p class="eyebrow">demo / voxtype</p>
+    <h2 class="h-md" data-od-id="voxtype-demo-heading">講中文，直接輸出臺灣繁中。</h2>
+    <div class="voice-demo" aria-label="Voxtype 語音輸入流程">
+      <div class="voice-step" data-od-id="voxtype-step-record">
+        <span class="nb">01 / INPUT</span>
+        <h3>說話</h3>
+        <p>按下快捷鍵，用自然語速講中文。</p>
+        <div class="voice-keywords"><span>中文語音</span><span>本機收音</span></div>
+      </div>
+      <div class="voice-step" data-od-id="voxtype-step-transcribe">
+        <span class="nb">02 / MODEL</span>
+        <h3>本機辨識</h3>
+        <p>由目前啟用的 SenseVoice 模型完成轉錄。</p>
+        <div class="voice-keywords"><span>SenseVoice</span><span>small-fp32</span></div>
+      </div>
+      <div class="voice-step" data-od-id="voxtype-step-convert">
+        <span class="nb">03 / OUTPUT</span>
+        <h3>轉成臺灣繁中</h3>
+        <p>經 OpenCC 轉換後，直接送到游標位置。</p>
+        <div class="voice-keywords"><span>s2twp</span><span>直接輸入</span></div>
+      </div>
+    </div>
+    <div class="voice-result" data-od-id="voxtype-demo-result">
+      <strong>語音進，臺灣繁中出。</strong>
+      <span>辨識與轉換都在本機完成</span>
+    </div>
+    <aside class="notes">這是我目前實際使用的 Voxtype demo。操作很簡單：按下快捷鍵講中文，SenseVoice 的 small-fp32 模型在本機完成辨識，再透過 OpenCC 的 s2twp 設定轉成臺灣繁中，最後直接輸入游標位置。這頁只保留流程與關鍵字，細部參數不展開。</aside>
+  </section>
+
   <!-- chrome -->
   <div class="deck-progress" id="deck-progress" aria-hidden></div>
-  <div class="deck-counter"  id="deck-counter">1 / 14</div>
+  <div class="deck-counter"  id="deck-counter">1 / 15</div>
   <div class="deck-hint"><span>← → 換頁</span><span>N 講者備註</span></div>
   <div class="notes-panel" id="notes-panel"><div class="lbl" id="notes-lbl">講者備註</div><div id="notes-body"></div></div>
 
